@@ -8,14 +8,14 @@
 using namespace std;
 
 int main() {
-    //UnsortedArray a(15);
+    UnsortedArray a(15);
     //SortedArray b(20);
-    OpenAddressHashTable c(20);
-
-    string *array;
+    //OpenAddressHashTable c(20);
 
     cout << "Array created" << endl;
     char fn[50];
+    string Q[1000];
+    int index = 0;
 
     cin >> fn;
 
@@ -25,36 +25,53 @@ int main() {
     {
         string buffer;
 
-        while (!ifs.eof()) {
+        while (!ifs.eof())
+        {
             ifs >> buffer;
-            // cout << "Untouched word: " << buffer << endl << endl;
+             //cout << "Untouched word: " << buffer << endl << endl;
+
             for (int i = 0; i < buffer[i]; ++i)
                 buffer[i] = (char) tolower(buffer[i]);
-            //cout << "Lowercased string" << endl;
-            for (int i = 0; i < buffer.size(); i++) {
+
+            //cout << "Lowercased string: " <<buffer<< endl<< endl<< endl<< endl;
+            for (int i = 0; i < buffer.size(); i++)
+            {
                 if (ispunct(buffer[i])) {
                     buffer.erase(i--, 1);
                     buffer.size();
                 }
             }
+            //cout << "Clean word: " << buffer << endl << endl << endl << endl;
 
 
-            c.insert(buffer);
-            int appearances = c.search(buffer);
-            if (!appearances) {
-                cout << "Not found" << endl;
-                exit(-1);
+            a.UInsert(buffer);
+
+
+
+            if (rand()%10+1 == 5 && index <= 999)
+            {
+                Q[index] = buffer;
+                cout<<buffer;
             }
 
-            cout << buffer << ": " << appearances << endl;
+
             buffer[0] = '\0';
+            index++;
 
             cout << "going to next word" << endl << endl << endl << endl << endl << endl;
+
         }
     }
         else
         {
             cout << "File error" << endl;
         }
+
+        cout<<1<<endl;
+    for (int i = 0; i < index ; i++)
+    {
+        a.USearch(Q[i]);
+        cout << Q[i] << " "<<endl;
+    }
         return 0;
 }
