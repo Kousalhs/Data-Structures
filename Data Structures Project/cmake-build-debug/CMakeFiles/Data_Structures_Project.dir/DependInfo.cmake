@@ -4,13 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/AVLTree.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/AVLTree.cpp.obj"
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/BinarySearchTree.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/BinarySearchTree.cpp.obj"
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/Cell.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/Cell.cpp.obj"
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/OpenAddressHashTable.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/OpenAddressHashTable.cpp.obj"
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/SortedArray.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/SortedArray.cpp.obj"
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/UnsortedArray.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/UnsortedArray.cpp.obj"
-  "C:/Users/Giorgos/CLionProjects/Data Structures Project/main.cpp" "C:/Users/Giorgos/CLionProjects/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/main.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/AVLTree.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/AVLTree.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/BinarySearchTree.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/BinarySearchTree.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/Cell.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/Cell.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/OpenAddressHashTable.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/OpenAddressHashTable.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/SortedArray.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/SortedArray.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/UnsortedArray.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/UnsortedArray.cpp.obj"
+  "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/main.cpp" "C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/cmake-build-debug/CMakeFiles/Data_Structures_Project.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

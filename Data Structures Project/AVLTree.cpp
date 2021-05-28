@@ -2,7 +2,7 @@
 
 AVLTree::AVLTree()
 {
-    root = NULL;
+    root = nullptr;
 }
 
 AVLTree::~AVLTree()
@@ -123,6 +123,7 @@ AVLTree::node *AVLTree::removeLeaf(string dat, node *tree) {
             return rightLeftRotation(tree);
     }
     return tree;
+}
 
 AVLTree::node* AVLTree::findMin(node *tree)
 {
