@@ -42,39 +42,40 @@ BinarySearchTree::node* BinarySearchTree::insertLeaf(string dat, node* tree) // 
     return tree;
 }
 
-BinarySearchTree::node* BinarySearchTree::removeLeaf(string dat, node* tree) // private συνάρτηση που αφαιρεί τον κόμβο απο το δυαδικό δέντρο αναζήτησης
+BinarySearchTree::node *BinarySearchTree::removeLeaf(string dat, node *tree) // private συνάρτηση που αφαιρεί τον κόμβο απο το δυαδικό δέντρο αναζήτησης
 {
-    if(tree == NULL) // δεν βρέθηκε
+    if (tree == NULL) // δεν βρέθηκε
         return NULL;
-    else if(dat < tree->data) // ο κόμβος βρίσκεται αριστερά
+    else if (dat < tree->data) // ο κόμβος βρίσκεται αριστερά
         tree->left = removeLeaf(dat, tree->left);
-    else if(dat > tree->data) // ο κόμβος βρίσκεται δεξιά
+    else if (dat > tree->data) // ο κόμβος βρίσκεται δεξιά
         tree->right = removeLeaf(dat, tree->right);
     else // βρήκαμε τον κόμβο
     {
-        if(tree->left == NULL && tree->right == NULL) // δεν έχει κανένα παιδί
-        {
-            delete tree;
-            tree = NULL;
-        }
-        else if(tree->left == NULL) // έχει ένα παιδί και είναι στα αριστερά του
-        {
-            node *temp = tree;
-            tree = tree->right;
-            delete temp;
-        }
-        else if(tree->right == NULL) // έχει ένα παιδί και είναι στα δεξιά του
-        {
-            node *temp = tree;
-            tree = tree->left;
-            delete temp;
-            cout<<tree->data<<endl;
-        }
-        else // έχει δύο παιδιά
-        {
-            node *temp = findMin(tree->right);
-            tree->data = temp->data;
-            tree->right = removeLeaf(tree->data, tree->right);
+        if (tree->counter > 1) // άμα υπάρχει παραπάνω από μια φορά μειώνουμε τον counter
+            tree->counter--;
+        else { // υπάρχει 1 φορά άρα σβήνουμε τον κόμβο
+            if (tree->left == NULL && tree->right == NULL) // δεν έχει κανένα παιδί
+            {
+                delete tree;
+                tree = NULL;
+            } else if (tree->left == NULL) // έχει ένα παιδί και είναι στα αριστερά του
+            {
+                node *temp = tree;
+                tree = tree->right;
+                delete temp;
+            } else if (tree->right == NULL) // έχει ένα παιδί και είναι στα δεξιά του
+            {
+                node *temp = tree;
+                tree = tree->left;
+                delete temp;
+                cout << tree->data << endl;
+            } else // έχει δύο παιδιά
+            {
+                node *temp = findMin(tree->right);
+                tree->data = temp->data;
+                tree->right = removeLeaf(tree->data, tree->right);
+            }
         }
     }
     return tree;

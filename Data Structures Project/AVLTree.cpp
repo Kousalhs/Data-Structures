@@ -62,62 +62,60 @@ AVLTree::node * AVLTree::insertLeaf(string data, node *tree)
     return tree;
 }
 
-AVLTree::node* AVLTree::removeLeaf(string dat, node* tree)
-{
-    if(tree == NULL) // δεν βρέθηκε
+AVLTree::node *AVLTree::removeLeaf(string dat, node *tree) {
+    if (tree == NULL) // δεν βρέθηκε
         return NULL;
-    else if(dat < tree->data) // ο κόμβος βρίσκεται αριστερά
+    else if (dat < tree->data) // ο κόμβος βρίσκεται αριστερά
         tree->left = removeLeaf(dat, tree->left);
-    else if(dat > tree->data) // ο κόμβος βρίσκεται δεξιά
+    else if (dat > tree->data) // ο κόμβος βρίσκεται δεξιά
         tree->right = removeLeaf(dat, tree->right);
     else // βρήκαμε τον κόμβο
     {
-        if(tree->left == NULL && tree->right == NULL) // δεν έχει κανένα παιδί
-        {
-            delete tree;
-            tree = NULL;
-        }
-        else if(tree->left == NULL) // έχει ένα παιδί και είναι στα αριστερά του
-        {
-            node *temp = tree;
-            tree = tree->right;
-            delete temp;
-        }
-        else if(tree->right == NULL) // έχει ένα παιδί και είναι στα δεξιά του
-        {
-            node *temp = tree;
-            tree = tree->left;
-            delete temp;
-            cout<<tree->data<<endl;
-        }
-        else // έχει δύο παιδιά
-        {
-            node *temp = findMin(tree->right);
-            tree->data = temp->data;
-            tree->right = removeLeaf(tree->data, tree->right);
+        if (tree->counter > 1) // υπάρχει περισσότερες από 1 φορές άρα μειώνουμε counter
+            tree->counter--;
+        else { // υπάρχει 1 φορά άρα σβήνουμε τον κόμβο
+            if (tree->left == NULL && tree->right == NULL) // δεν έχει κανένα παιδί
+            {
+                delete tree;
+                tree = NULL;
+            } else if (tree->left == NULL) // έχει ένα παιδί και είναι στα αριστερά του
+            {
+                node *temp = tree;
+                tree = tree->right;
+                delete temp;
+            } else if (tree->right == NULL) // έχει ένα παιδί και είναι στα δεξιά του
+            {
+                node *temp = tree;
+                tree = tree->left;
+                delete temp;
+                cout << tree->data << endl;
+            } else // έχει δύο παιδιά
+            {
+                node *temp = findMin(tree->right);
+                tree->data = temp->data;
+                tree->right = removeLeaf(tree->data, tree->right);
+            }
         }
     }
-    if(tree == NULL)
+    if (tree == NULL)
         return NULL;
 
-    tree->height = max(height(tree->left), height(tree->right))+1;
+    tree->height = max(height(tree->left), height(tree->right)) + 1;
 
     // If node is unbalanced
     // If left node is deleted, right case
-    if(height(tree->left) - height(tree->right) == 2)
-    {
+    if (height(tree->left) - height(tree->right) == 2) {
         // right right case
-        if(tree->left->left != NULL)
+        if (tree->left->left != NULL)
             return RightRotation(tree);
             // right left case
         else
             return leftRightRotation(tree);
     }
         // If right node is deleted, left case
-    else if(height(tree->right) - height(tree->left) == 2)
-    {
+    else if (height(tree->right) - height(tree->left) == 2) {
         // left left case
-        if(tree->right->right != NULL){
+        if (tree->right->right != NULL) {
             return LeftRotation(tree);
         }
             // left right case
@@ -125,7 +123,6 @@ AVLTree::node* AVLTree::removeLeaf(string dat, node* tree)
             return rightLeftRotation(tree);
     }
     return tree;
-}
 
 AVLTree::node* AVLTree::findMin(node *tree)
 {
