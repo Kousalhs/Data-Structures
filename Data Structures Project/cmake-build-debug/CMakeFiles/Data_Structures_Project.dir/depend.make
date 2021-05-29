@@ -22,6 +22,8 @@ CMakeFiles/Data_Structures_Project.dir/UnsortedArray.cpp.obj: ../Cell.h
 CMakeFiles/Data_Structures_Project.dir/UnsortedArray.cpp.obj: ../UnsortedArray.cpp
 CMakeFiles/Data_Structures_Project.dir/UnsortedArray.cpp.obj: ../UnsortedArray.h
 
+CMakeFiles/Data_Structures_Project.dir/main.cpp.obj: ../AVLTree.h
+CMakeFiles/Data_Structures_Project.dir/main.cpp.obj: ../BinarySearchTree.h
 CMakeFiles/Data_Structures_Project.dir/main.cpp.obj: ../Cell.h
 CMakeFiles/Data_Structures_Project.dir/main.cpp.obj: ../OpenAddressHashTable.h
 CMakeFiles/Data_Structures_Project.dir/main.cpp.obj: ../SortedArray.h
