@@ -14,7 +14,7 @@ private:
 public:
     //constructors - destructor
     OpenAddressHashTable();
-    OpenAddressHashTable(int);
+    OpenAddressHashTable(int newSize);
     ~OpenAddressHashTable();
 
     //hash functions used for double hashing
