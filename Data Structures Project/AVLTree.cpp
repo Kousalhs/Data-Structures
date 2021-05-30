@@ -31,11 +31,9 @@ AVLTree::node * AVLTree::insertLeaf(string data, node *tree)
     }
     else if(data < tree->data) // μικρότερο
     {
-        cout<<"mpike left to: "<<data<<" apo to: "<<tree->data<<endl;
         tree->left = insertLeaf(data, tree->left); // μπαίνει αριστερά
         if(height(tree->left) - height(tree->right) == 2) // ελέγχουμε το ύψος απο τους κόμβους του
         {
-            cout<<"left side > right side "<<tree->data<<endl;
             if(data < tree->left->data) // αναλύουμε τις περιπτώσεις
                 tree = RightRotation(tree);
             else
@@ -44,11 +42,9 @@ AVLTree::node * AVLTree::insertLeaf(string data, node *tree)
     }
     else if(data > tree->data) // μεγαλύτερο
     {
-        cout<<"mpike right to: "<<data<<" apo to: "<<tree->data<<endl;
         tree->right = insertLeaf(data, tree->right); // μπαίνει δεξιά
         if(height(tree->right) - height(tree->left) == 2) // ελέγχουμε το ύψος απο τους κόμβους του
         {
-            cout<<"right side > left side"<<endl;
             if(data > tree->right->data) // αναλύουμε τις περιπτώσεις
                 tree = LeftRotation(tree);
             else
@@ -135,16 +131,16 @@ AVLTree::node* AVLTree::findMin(node *tree)
         return findMin(tree->left);
 }
 
-bool AVLTree::search(node *n, string data)
+int AVLTree::search(node *n, string data)
 {
     if(n == NULL) // δεν βρέθηκε
-        return false;
+        return -100;
     else if(n->data < data) // είναι μικρότερο άρα ψάχνουμε το δεξί υποδέντρο
         return search(n->right, data);
     else if(n->data > data) // είναι μεγαλύτερο άρα ψάχνουμε το αριστερό υποδέντρο
         return search(n->left, data);
     else // βρέθηκε
-        return true;
+        return n->counter;
 }
 
 AVLTree::node* AVLTree::deleteTree(node *tree) // private συνάρτηση που αφαιρεί το κόμβο από την μνήμη
@@ -173,7 +169,6 @@ int AVLTree::height(node *tree) // επιστρέφει το ύψος του κ�
 
 AVLTree::node* AVLTree::RightRotation(node* &tree) // δεξιά περιστροφή
 {
-    cout<<"right rotation"<<endl;
     node* a = tree->left;
     tree->left = a->right;
     a->right = tree;
@@ -184,7 +179,6 @@ AVLTree::node* AVLTree::RightRotation(node* &tree) // δεξιά περιστρ�
 
 AVLTree::node* AVLTree::LeftRotation(node* &tree) // αριστερή περιστροφή
 {
-    cout<<"left rotation"<<endl;
     node* a = tree->right;
     tree->right = a->left;
     a ->left = tree;
@@ -195,14 +189,12 @@ AVLTree::node* AVLTree::LeftRotation(node* &tree) // αριστερή περισ
 
 AVLTree::node* AVLTree::rightLeftRotation(node* &tree) // πρώτα δεξιά περιστροφή και μετά δεξιά
 {
-    cout<<"right left rotate"<<endl;
     tree->right = RightRotation(tree->right);
     return LeftRotation(tree);
 }
 
 AVLTree::node* AVLTree::leftRightRotation(node* &tree) // πρώτα αριστερή περιστροφή και μετά δεξιά
 {
-    cout<<"left right rotate"<<endl;
     tree->left = LeftRotation(tree->left);
     return RightRotation(tree);
 }

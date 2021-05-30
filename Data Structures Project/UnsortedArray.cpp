@@ -21,7 +21,7 @@ UnsortedArray::~UnsortedArray() { delete [] array;}
 
 int UnsortedArray::USearch(const string& s) //s=wordGiven
 {
-    for (int i = 0; i < index; i++)         //Linear Search to the array
+    for (int i= 0; i < index; i++)         //Linear Search to the array
         if(array[i].getS() == s)
             return array[i].getK();
     return 0;

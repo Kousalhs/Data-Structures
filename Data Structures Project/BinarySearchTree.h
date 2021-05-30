@@ -33,7 +33,7 @@ public:
     void postorder(node *); // postorder
     void insertLeaf(string); // καλεί την insertLeaf που είναι private
     void removeLeaf(string); // καλεί την removeLeaf που είναι private
-    bool search(node *, string); // επιστρέφει true αν υπάρχει αλλιώς false
+    int search(node *, string); // επιστρέφει true αν υπάρχει αλλιώς false
 
 };
 

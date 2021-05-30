@@ -29,12 +29,10 @@ BinarySearchTree::node* BinarySearchTree::insertLeaf(string dat, node* tree) // 
     }
     else if(dat < tree->data) // μικρότερο άρα μπαίνει αριστερά
     {
-        cout<<"mpike left to: "<<dat<<" apo to: "<<tree->data<<endl;
         tree->left = insertLeaf(dat, tree->left);
     }
     else if(dat > tree->data) // μεγαλύτερο άρα μπαίνει δεξιά
     {
-        cout<<"mpike right to: "<<dat<<" apo to: "<<tree->data<<endl;
         tree->right = insertLeaf(dat, tree->right);
     }
     else // αν υπάρχει ήδη αυξάνουμε το πλήθος του
@@ -69,7 +67,6 @@ BinarySearchTree::node *BinarySearchTree::removeLeaf(string dat, node *tree) // 
                 node *temp = tree;
                 tree = tree->left;
                 delete temp;
-                cout << tree->data << endl;
             } else // έχει δύο παιδιά
             {
                 node *temp = findMin(tree->right);
@@ -91,16 +88,16 @@ BinarySearchTree::node* BinarySearchTree::findMin(node *tree)
         return findMin(tree->left);
 }
 
-bool BinarySearchTree::search(node *n, string data)
+int BinarySearchTree::search(node *n, string data)
 {
     if(n == NULL) // δεν βρέθηκε
-        return false;
+        return -100;
     else if(n->data < data) // είναι μικρότερο άρα ψάχνουμε στο δεξί υποδέντρο
         return search(n->right, data);
     else if(n->data > data) // είναι μεγαλύτερο άρα ψάχνουμε στο αριστερό υποδέντρο
         return search(n->left, data);
     else // βρέθηκε
-        return true;
+        return n->counter;
 }
 
 BinarySearchTree::node* BinarySearchTree::deleteTree(node* tree) // private συνάρτηση που αφαιρεί το δέντρο από την μνήμη

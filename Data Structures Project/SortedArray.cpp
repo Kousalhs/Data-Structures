@@ -1,6 +1,8 @@
 #include "SortedArray.h"
 #include <iostream>
+
 using namespace std;
+
 SortedArray::SortedArray()
 {
     size=15;
