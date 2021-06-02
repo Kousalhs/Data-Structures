@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <cctype>
-#include <ctime>
-#include <ratio>
 #include <chrono>
 
 #include "AVLTree.h"
@@ -17,37 +15,30 @@ using namespace chrono;
 int main()
 {
     const int qSize = 100000;
-    UnsortedArray a(qSize);
-    SortedArray b(qSize);
-    OpenAddressHashTable e(qSize);
-    AVLTree d;
-    BinarySearchTree c;
-
-
-    cout << "Array created" << endl;
-
-    char fn[50];
 
     string Q[qSize];
+    unsigned long int QIndex = 0;
 
-    unsigned long int index = 0;
-
-    cin >> fn;
+    UnsortedArray unsortedArray(qSize);
+    SortedArray sortedArray(qSize);
+    BinarySearchTree bst;
+    AVLTree avl;
+    OpenAddressHashTable hashTable(qSize);
 
     ifstream ifs;
-    ifs.open(fn);
-    if (ifs.is_open())
+    ifs.open("large.txt");
+    if (ifs.is_open()) // We open the file successfully
     {
         string buffer;
-
-        while (!ifs.eof())
+        cout<<"Opened"<<endl;
+        while (!ifs.eof()) // While the file isn't ending
         {
-            ifs >> buffer; // Untouched word
+            ifs >> buffer; // Untouched word is inserted
 
-            for (unsigned long int i = 0; i < buffer[i]; ++i) // Lowercased word
+            for (unsigned long int i = 0; i < buffer[i]; ++i) // First we lowercase the word
                 buffer[i] = (char) tolower(buffer[i]);
 
-            for (unsigned long int i = 0; i < buffer.size(); i++) // Punctuation remove
+            for (unsigned long int i = 0; i < buffer.size(); i++) // Then we remove punctuation
             {
                 if (ispunct(buffer[i]))
                 {
@@ -56,105 +47,104 @@ int main()
                 }
             }
 
+            // Insertion to structures
+            unsortedArray.UInsert(buffer);
+            sortedArray.Insert(buffer);
+            bst.insertLeaf(buffer);
+            avl.insertLeaf(buffer);
+            hashTable.insert(buffer);
 
-            a.UInsert(buffer); // unsorted
-            b.Insert(buffer); // sorted
-            c.insertLeaf(buffer); // bst
-            d.insertLeaf(buffer); // avl
-            e.insert(buffer); // hashtablr
-
-
-            if ((rand() % 10 + 1 == 5) && (index < qSize))
+            // Function for random words inserted to Q
+            if ((rand() % 10 + 1 == 5) && (QIndex < qSize))
             {
-                Q[index] = buffer;
-                index++;
-                //cout <<"Randomly selected: "<< buffer<<endl;
+                Q[QIndex] = buffer;
+                QIndex++;
             }
 
             buffer[0] = '\0';
-
-            //cout << "going to next word" << endl << endl << endl << endl << endl << endl;
-
         }
-
-
-        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        duration<double> time_span = duration_cast<duration<double>>(t1-t1); //
-
-        for (int i = 0; i < index ; i++)
+        
+        cout<<"Insertion completed"<<endl;
+        ofstream ofs;
+        ofs.open("output.txt");
+        
+        // Search method for unsorted array is started
+        high_resolution_clock::time_point unsortedStart = high_resolution_clock::now();
+        duration<double> unsortedTimer = duration_cast<duration<double>>(unsortedStart - unsortedStart); // We set unsorted timer to 0
+        for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for unsorted array
         {
-            t1 = high_resolution_clock::now();
-            int appearances = a.USearch(Q[i]);
-            high_resolution_clock::time_point t2 = high_resolution_clock::now();
-            time_span += duration_cast<duration<double>>(t2-t1);
+            unsortedStart = high_resolution_clock::now(); // Word timer is starting for search
+            int appearances = unsortedArray.USearch(Q[i]);
+            high_resolution_clock::time_point unsortedEnd = high_resolution_clock::now(); // Word timer ended
+            unsortedTimer += duration_cast<duration<double>>(unsortedEnd - unsortedStart); // Whole timer is the subtraction of unsortedEnd minus unsortedStart
 
-            //cout<<Q[i]<<" : "<< appearances << endl;
+            ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
+        ofs<<endl;
+        ofs << "Unsorted array search time: " << unsortedTimer.count() << " seconds." << endl<<endl<<endl;
 
-        cout<<"Unsorted array search time: "<<time_span.count() << " seconds." <<endl;
-
-        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-        duration<double> time_span1 = duration_cast<duration<double>>(t2-t2); //
-
-        for (int i = 0; i < index ; i++)
+        // Search method for sorted array is started
+        high_resolution_clock::time_point sortedStart = high_resolution_clock::now();
+        duration<double> sortedTimer = duration_cast<duration<double>>(sortedStart - sortedStart); // We set sorted timer to 0
+        for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for sorted array
         {
-            t2 = high_resolution_clock::now();
-            int appearances = b.Search(Q[i]);
-            high_resolution_clock::time_point t3 = high_resolution_clock::now();
-            time_span1 += duration_cast<duration<double>>(t3-t2);
+            sortedStart = high_resolution_clock::now(); // Word timer is starting for search
+            int appearances = sortedArray.Search(Q[i]);
+            high_resolution_clock::time_point sortedEnd = high_resolution_clock::now(); // Word timer ended
+            sortedTimer += duration_cast<duration<double>>(sortedEnd - sortedStart); // Whole timer is the subtraction of sortedEnd minus sortedStart
 
-            //cout<<Q[i]<<" : "<< appearances << endl;
+            ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
+        ofs<<endl;
+        ofs << "Sorted array search time: " << sortedTimer.count() << " seconds." << endl<<endl<<endl;
 
-        cout<<"Sorted array search time: "<<time_span1.count() << " seconds." <<endl;
-
-        high_resolution_clock::time_point t3 = high_resolution_clock::now();
-        duration<double> time_span2 = duration_cast<duration<double>>(t3-t3); //
-
-        for (int i = 0; i < index ; i++)
+        // Search method for binary search tree is started
+        high_resolution_clock::time_point binaryStart = high_resolution_clock::now();
+        duration<double> binaryTimer = duration_cast<duration<double>>(binaryStart - binaryStart); // We set binary timer to 0
+        for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for binary search tree
         {
-            t3 = high_resolution_clock::now();
-            int appearances = c.search(c.getNode(),Q[i]);
-            high_resolution_clock::time_point t4 = high_resolution_clock::now();
-            time_span2 += duration_cast<duration<double>>(t4-t3);
+            binaryStart = high_resolution_clock::now(); // Word timer is starting for search
+            int appearances = bst.search(bst.getNode(), Q[i]);
+            high_resolution_clock::time_point binaryEnd = high_resolution_clock::now(); // Word timer ended
+            binaryTimer += duration_cast<duration<double>>(binaryEnd - binaryStart); // Whole timer is the subtraction of binaryEnd minus binaryStart
 
-            //cout<<Q[i]<<" : "<< appearances << endl;
+            ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
+        ofs<<endl;
+        ofs << "Binary search tree search time: " << binaryTimer.count() << " seconds." << endl<<endl<<endl;
 
-        cout<<"Binary search tree search time: "<<time_span2.count() << " seconds." <<endl;
-
-        high_resolution_clock::time_point t4 = high_resolution_clock::now();
-        duration<double> time_span3 = duration_cast<duration<double>>(t4-t4); //
-
-        for (int i = 0; i < index ; i++)
+        // Search method for avl tree is started
+        high_resolution_clock::time_point avlStart = high_resolution_clock::now();
+        duration<double> avlTimer = duration_cast<duration<double>>(avlStart - avlStart); // We set avl timer to 0
+        for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for avl tree
         {
-            t4 = high_resolution_clock::now();
-            int appearances = d.search(d.getNode(),Q[i]);
-            high_resolution_clock::time_point t5 = high_resolution_clock::now();
-            time_span3 += duration_cast<duration<double>>(t5-t4);
+            avlStart = high_resolution_clock::now(); // Word timer is starting for search
+            int appearances = avl.search(avl.getNode(), Q[i]);
+            high_resolution_clock::time_point avlEnd = high_resolution_clock::now(); // Word timer ended
+            avlTimer += duration_cast<duration<double>>(avlEnd - avlStart); // Whole timer is the subtraction of avlEnd minus avlStart
 
-            //cout<<Q[i]<<" : "<< appearances << endl;
+            ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
+        ofs<<endl;
+        ofs << "AVL tree search time: " << avlTimer.count() << " seconds." << endl<<endl<<endl;
 
-        cout<<"AVL tree search time: "<<time_span3.count() << " seconds." <<endl;
-
-        high_resolution_clock::time_point t5 = high_resolution_clock::now();
-        duration<double> time_span4 = duration_cast<duration<double>>(t5-t5); //
-
-        for (int i = 0; i < index ; i++)
+        // Search method for open address hash table array is started
+        high_resolution_clock::time_point hashTableStart = high_resolution_clock::now();
+        duration<double> hashTableTimer = duration_cast<duration<double>>(hashTableStart - hashTableStart); // We set hashTable timer to 0
+        for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for hashTable
         {
-            t5 = high_resolution_clock::now();
-            int appearances = e.search(Q[i]);
-            high_resolution_clock::time_point t6 = high_resolution_clock::now();
-            time_span4 += duration_cast<duration<double>>(t6-t5);
+            hashTableStart = high_resolution_clock::now(); // Word timer is starting for search
+            int appearances = hashTable.search(Q[i]);
+            high_resolution_clock::time_point hashTableEnd = high_resolution_clock::now(); // Word timer ended
+            hashTableTimer += duration_cast<duration<double>>(hashTableEnd - hashTableStart); // Whole timer is the subtraction of hastTableEnd minus hastTableStart
 
-            //cout<<Q[i]<<" : "<< appearances << endl;
+            ofs<<Q[i]<<" : "<< appearances << endl;
         }
-
-        cout<<"Open address hash table search time: "<<time_span4.count() << " seconds." <<endl;
+        ofs<<endl;
+        ofs << "Open address hashTable search time: " << hashTableTimer.count() << " seconds." << endl<<endl<<endl;
 
     }
-    else
+    else // Failed to open the file
     {
         cout << "File error" << endl;
     }
