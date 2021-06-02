@@ -55,13 +55,41 @@ bool OpenAddressHashTable::insert(const string &s)
     do
     {
         i++; // at the very first check, i has value -1+1=0, and increases by 1 at every "collision"
-        index = (hashValue1+ i * hashValue2) % size;  // double hashing
+        index = (hashValue1+ i * hashValue2) % (this->size);  // double hashing
         //cout << "Searching in " << index << endl;
         if (array[index].getS() == s)
         {
             //cout << "Found!" << endl;
             array[index].Exists();
             return true;
+        }
+        if (i > 30)
+        {
+            Cell *newArray = new Cell [size*2];
+            if(newArray == nullptr)
+                return false;
+            for (int oldElement = 0; oldElement < size; oldElement++) // hashing old elements to new array
+            {
+                if (array[oldElement].isOccupied())
+                {
+                    int j = -1;
+                    hashValue1 = HashFunction1(array[oldElement].getS());
+                    hashValue2 = HashFunction2(array[oldElement].getS());
+                    do
+                    {
+                        j++;
+                        index = (hashValue1+ j * hashValue2) % (size*2);
+                    }
+                    while(newArray[index].isOccupied());
+                    newArray[index].setS(array[oldElement].getS(),array[oldElement].getK()); // setting words
+                }
+            }
+            delete [] array;
+            array = newArray;
+            size*=2;
+            hashValue1 = HashFunction1(s); //setting new word for Hashfunction1
+            hashValue2 = HashFunction2(s); //setting new word for Hashfunction2
+            break;
         }
     }
     while(array[index].isOccupied()); // loop stops when an unoccupied position is found
@@ -93,7 +121,7 @@ bool OpenAddressHashTable::insert(const string &s)
         size*=2;
         hashValue1 = HashFunction1(s); //setting new word for Hashfunction1
         hashValue2 = HashFunction2(s); //setting new word for Hashfunction2
-       // cout << "Array expanded" << endl;
+        //cout << "Array expanded" << endl;
     }
 
     i=-1;
@@ -106,15 +134,15 @@ bool OpenAddressHashTable::insert(const string &s)
     while(array[index].isOccupied());  // loop stops when an unoccupied position is found
     array[index].setS(s);
     occupied++;
-    /* cout<<"{ "<<endl;
+    /*cout<<"{ "<<endl;
      for (int j = 0; j < size ; ++j)
      {
 
              cout<<(array[j].getS().empty() ? "empty" : array[j].getS())<< "(" << array[j].getK() << ")"<<endl;
 
      }
-     cout<<"}"<<endl;
-     */
+     cout<<"}"<<endl;*/
+
 
     return true;
 }
@@ -131,7 +159,7 @@ int OpenAddressHashTable::search(const string &s)
         //cout<<"Searching in " << index << endl;
         if (array[index].getS() == s)
         {
-           // cout<<"Word found!"<<endl;
+            //cout<<"Word found!"<<endl;
             return array[index].getK(); //if the word is found return its frequency
         }
 

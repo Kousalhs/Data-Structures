@@ -14,7 +14,8 @@ using namespace chrono;
 
 int main()
 {
-    const int qSize = 100000;
+    //srand (time(0));
+    const int qSize = 10000;
 
     string Q[qSize];
     unsigned long int QIndex = 0;
@@ -34,40 +35,44 @@ int main()
         while (!ifs.eof()) // While the file isn't ending
         {
             ifs >> buffer; // Untouched word is inserted
-
+            string word = "";
             for (unsigned long int i = 0; i < buffer[i]; ++i) // First we lowercase the word
                 buffer[i] = (char) tolower(buffer[i]);
 
-            for (unsigned long int i = 0; i < buffer.size(); i++) // Then we remove punctuation
+            for (int i = 0; i < buffer.size(); ++i)
             {
-                if (ispunct(buffer[i]))
-                {
-                    buffer.erase(i--, 1);
-                    buffer.size();
+                if ((buffer[i] >= 'a' && buffer[i] <= 'z') || (buffer[i] >= 'A' && buffer[i] <= 'Z') || (buffer[i] >= '0' && buffer[i]<='9')) {
+                    word = word + buffer[i];
                 }
             }
 
-            // Insertion to structures
-            unsortedArray.UInsert(buffer);
-            sortedArray.Insert(buffer);
-            bst.insertLeaf(buffer);
-            avl.insertLeaf(buffer);
-            hashTable.insert(buffer);
+            if(!word.empty()) {
 
-            // Function for random words inserted to Q
-            if ((rand() % 10 + 1 == 5) && (QIndex < qSize))
-            {
-                Q[QIndex] = buffer;
-                QIndex++;
+                // Insertion to structures
+
+                //sortedArray.Insert(buffer);
+                //unsortedArray.UInsert(buffer);
+                bst.insertLeaf(word);
+                //avl.insertLeaf(buffer);
+
+                //hashTable.insert(buffer);
+
+
+                // Function for random words inserted to Q
+                if ((rand() % 10 + 1 == 5) && (QIndex < qSize)) {
+                    Q[QIndex] = word;
+                    QIndex++;
+                }
             }
-
-            buffer[0] = '\0';
+            word[0] = '\0';
         }
-        
+
         cout<<"Insertion completed"<<endl;
         ofstream ofs;
         ofs.open("output.txt");
-        
+
+
+/*
         // Search method for unsorted array is started
         high_resolution_clock::time_point unsortedStart = high_resolution_clock::now();
         duration<double> unsortedTimer = duration_cast<duration<double>>(unsortedStart - unsortedStart); // We set unsorted timer to 0
@@ -96,7 +101,7 @@ int main()
             ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
         ofs<<endl;
-        ofs << "Sorted array search time: " << sortedTimer.count() << " seconds." << endl<<endl<<endl;
+        ofs << "Sorted array search time: " << sortedTimer.count() << " seconds." << endl<<endl<<endl; */
 
         // Search method for binary search tree is started
         high_resolution_clock::time_point binaryStart = high_resolution_clock::now();
@@ -112,7 +117,7 @@ int main()
         }
         ofs<<endl;
         ofs << "Binary search tree search time: " << binaryTimer.count() << " seconds." << endl<<endl<<endl;
-
+/*
         // Search method for avl tree is started
         high_resolution_clock::time_point avlStart = high_resolution_clock::now();
         duration<double> avlTimer = duration_cast<duration<double>>(avlStart - avlStart); // We set avl timer to 0
@@ -141,7 +146,7 @@ int main()
             ofs<<Q[i]<<" : "<< appearances << endl;
         }
         ofs<<endl;
-        ofs << "Open address hashTable search time: " << hashTableTimer.count() << " seconds." << endl<<endl<<endl;
+        ofs << "Open address hashTable search time: " << hashTableTimer.count() << " seconds." << endl<<endl<<endl; */
 
     }
     else // Failed to open the file
