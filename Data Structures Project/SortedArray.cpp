@@ -119,7 +119,7 @@ void SortedArray::Delete(const string &s) // s = wordGiven
             break;
         }
     }
-    if (array[position].getK()==0) // if the word has 0  appearances, delete it
+    if (array[position].getK()<=0) // if the word has 0  appearances, delete it
     {
         for (int i = position; i <index-1 ; i++)
         {

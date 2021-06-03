@@ -26,6 +26,7 @@ public:
     int search(const string&);
 
     //auxiliary method
+    void expandArray(const string &);
     bool isFull() const;
 };
 

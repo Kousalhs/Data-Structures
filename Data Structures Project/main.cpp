@@ -12,68 +12,88 @@
 using namespace std;
 using namespace chrono;
 
-int main()
-{
+int main() {
+
     //srand (time(0));
     const int qSize = 10000;
-
+    unsigned long int counter = 0;
     string Q[qSize];
     unsigned long int QIndex = 0;
 
-    UnsortedArray unsortedArray(qSize);
-    SortedArray sortedArray(qSize);
-    BinarySearchTree bst;
-    AVLTree avl;
-    OpenAddressHashTable hashTable(qSize);
 
-    ifstream ifs;
-    ifs.open("large.txt");
-    if (ifs.is_open()) // We open the file successfully
+    ifstream ifs1;
+    ifs1.open("large.txt");
+    if (ifs1.is_open()) // We open the file successfully
     {
         string buffer;
-        cout<<"Opened"<<endl;
-        while (!ifs.eof()) // While the file isn't ending
+        cout << "Opened for word counting " << endl;
+        while (!ifs1.eof()) // While the file isn't ending
         {
-            ifs >> buffer; // Untouched word is inserted
+            ifs1 >> buffer;
+            counter++; // with this counter we count how many words are in the file
+        }
+        ifs1.close();
+    }
+    else // Failed to open the file
+    {
+        cout << "File error" << endl;
+        exit(-1);
+    }
+
+     /*UnsortedArray unsortedArray(counter);
+     SortedArray sortedArray(counter);
+     BinarySearchTree bst;*/
+     AVLTree avl;
+     OpenAddressHashTable hashTable(counter);
+
+    ifs1.open("large.txt");
+    if (ifs1.is_open()) // We open the file successfully
+    {
+        string buffer;
+        cout<<"Opened for processing"<<endl;
+        while (!ifs1.eof()) // While the file isn't ending
+        {
+            ifs1 >> buffer; // Untouched word is inserted
             string word = "";
             for (unsigned long int i = 0; i < buffer[i]; ++i) // First we lowercase the word
                 buffer[i] = (char) tolower(buffer[i]);
 
-            for (int i = 0; i < buffer.size(); ++i)
-            {
+            for (int i = 0; i < buffer.size(); ++i) {
                 if ((buffer[i] >= 'a' && buffer[i] <= 'z') || (buffer[i] >= 'A' && buffer[i] <= 'Z') || (buffer[i] >= '0' && buffer[i]<='9')) {
                     word = word + buffer[i];
                 }
             }
 
-            if(!word.empty()) {
+            if(!word.empty())
+            {
 
                 // Insertion to structures
 
-                //sortedArray.Insert(buffer);
-                //unsortedArray.UInsert(buffer);
-                bst.insertLeaf(word);
-                //avl.insertLeaf(buffer);
+                //unsortedArray.UInsert(word);
+                //sortedArray.Insert(word);
+                //bst.insertLeaf(word);
+                avl.insertLeaf(word);
 
-                //hashTable.insert(buffer);
+                hashTable.insert(word);
 
 
                 // Function for random words inserted to Q
-                if ((rand() % 10 + 1 == 5) && (QIndex < qSize)) {
+                if ((rand() % 10 + 1 == 5) && (QIndex < qSize))
+                {
                     Q[QIndex] = word;
                     QIndex++;
                 }
             }
             word[0] = '\0';
         }
+        ifs1.close();
 
         cout<<"Insertion completed"<<endl;
+
         ofstream ofs;
         ofs.open("output.txt");
 
-
-/*
-        // Search method for unsorted array is started
+        /*// Search method for unsorted array is started
         high_resolution_clock::time_point unsortedStart = high_resolution_clock::now();
         duration<double> unsortedTimer = duration_cast<duration<double>>(unsortedStart - unsortedStart); // We set unsorted timer to 0
         for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for unsorted array
@@ -85,7 +105,7 @@ int main()
 
             ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
-        ofs<<endl;
+        ofs<<endl<<endl;
         ofs << "Unsorted array search time: " << unsortedTimer.count() << " seconds." << endl<<endl<<endl;
 
         // Search method for sorted array is started
@@ -100,10 +120,10 @@ int main()
 
             ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
-        ofs<<endl;
-        ofs << "Sorted array search time: " << sortedTimer.count() << " seconds." << endl<<endl<<endl; */
+        ofs<<endl<<endl;
+        ofs << "Sorted array search time: " << sortedTimer.count() << " seconds." << endl<<endl<<endl;
 
-        // Search method for binary search tree is started
+       // Search method for binary search tree is started
         high_resolution_clock::time_point binaryStart = high_resolution_clock::now();
         duration<double> binaryTimer = duration_cast<duration<double>>(binaryStart - binaryStart); // We set binary timer to 0
         for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for binary search tree
@@ -115,9 +135,9 @@ int main()
 
             ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
-        ofs<<endl;
-        ofs << "Binary search tree search time: " << binaryTimer.count() << " seconds." << endl<<endl<<endl;
-/*
+        ofs<<endl<<endl;
+        ofs << "Binary search tree search time: " << binaryTimer.count() << " seconds." << endl<<endl<<endl;*/
+
         // Search method for avl tree is started
         high_resolution_clock::time_point avlStart = high_resolution_clock::now();
         duration<double> avlTimer = duration_cast<duration<double>>(avlStart - avlStart); // We set avl timer to 0
@@ -130,10 +150,10 @@ int main()
 
             ofs<<Q[i]<<" : "<< appearances << endl; // We write words and their appearances to output.txt
         }
-        ofs<<endl;
+        ofs<<endl<<endl;
         ofs << "AVL tree search time: " << avlTimer.count() << " seconds." << endl<<endl<<endl;
 
-        // Search method for open address hash table array is started
+       // Search method for open address hash table array is started
         high_resolution_clock::time_point hashTableStart = high_resolution_clock::now();
         duration<double> hashTableTimer = duration_cast<duration<double>>(hashTableStart - hashTableStart); // We set hashTable timer to 0
         for (int i = 0; i < QIndex ; i++) // We search all the words from Q array for hashTable
@@ -145,13 +165,15 @@ int main()
 
             ofs<<Q[i]<<" : "<< appearances << endl;
         }
-        ofs<<endl;
-        ofs << "Open address hashTable search time: " << hashTableTimer.count() << " seconds." << endl<<endl<<endl; */
+        ofs<<endl<<endl;
+        ofs << "Open address hashTable search time: " << hashTableTimer.count() << " seconds." << endl<<endl<<endl;
 
+        ofs.close();
     }
     else // Failed to open the file
     {
         cout << "File error" << endl;
+        exit(-1);
     }
     return 0;
 }

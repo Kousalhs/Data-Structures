@@ -6,14 +6,20 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/Cell.h
-string
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/AVLTree.h
+iostream
+-
+cstring
 -
 
-C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/OpenAddressHashTable.cpp
-OpenAddressHashTable.h
-C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/OpenAddressHashTable.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/BinarySearchTree.h
 iostream
+-
+string.h
+-
+
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/Cell.h
+string
 -
 
 C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/OpenAddressHashTable.h
@@ -21,4 +27,36 @@ string
 -
 Cell.h
 C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/Cell.h
+
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/SortedArray.h
+string
+-
+Cell.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/Cell.h
+
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/UnsortedArray.h
+string
+-
+Cell.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/Cell.h
+
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/main.cpp
+iostream
+-
+fstream
+-
+cctype
+-
+chrono
+-
+AVLTree.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/AVLTree.h
+BinarySearchTree.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/BinarySearchTree.h
+UnsortedArray.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/UnsortedArray.h
+SortedArray.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/SortedArray.h
+OpenAddressHashTable.h
+C:/Users/Giorgos/CLionProjects/Data-Structures/Data Structures Project/OpenAddressHashTable.h
 

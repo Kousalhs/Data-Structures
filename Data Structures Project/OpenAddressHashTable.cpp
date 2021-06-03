@@ -23,7 +23,7 @@ unsigned long int OpenAddressHashTable::HashFunction1(string const& s) const //H
 {
     unsigned long int hashVal1=0;
     for (int i = 0; s[i]!='\0'; i++)
-        hashVal1 = 37*hashVal1 +  s[i];
+        hashVal1 = hashVal1 +  s[i];
     return hashVal1 % (this->size);
 }
 
@@ -31,8 +31,8 @@ unsigned long int OpenAddressHashTable::HashFunction2(string const& s) const //H
 {
     unsigned long int hashVal2=0;
     unsigned long int valueToReturn = 0;
-    for (int i = 0; i < s[i]!='\0'; i++)
-        hashVal2 = 13*hashVal2 + s[i];
+    for (int i = 0; s[i]!='\0'; i++)
+        hashVal2 = hashVal2 + s[i];
     valueToReturn = hashVal2 % (this->size);
     return (valueToReturn) ? valueToReturn : 1;
 }
@@ -63,65 +63,13 @@ bool OpenAddressHashTable::insert(const string &s)
             array[index].Exists();
             return true;
         }
-        if (i > 30)
-        {
-            Cell *newArray = new Cell [size*2];
-            if(newArray == nullptr)
-                return false;
-            for (int oldElement = 0; oldElement < size; oldElement++) // hashing old elements to new array
-            {
-                if (array[oldElement].isOccupied())
-                {
-                    int j = -1;
-                    hashValue1 = HashFunction1(array[oldElement].getS());
-                    hashValue2 = HashFunction2(array[oldElement].getS());
-                    do
-                    {
-                        j++;
-                        index = (hashValue1+ j * hashValue2) % (size*2);
-                    }
-                    while(newArray[index].isOccupied());
-                    newArray[index].setS(array[oldElement].getS(),array[oldElement].getK()); // setting words
-                }
-            }
-            delete [] array;
-            array = newArray;
-            size*=2;
-            hashValue1 = HashFunction1(s); //setting new word for Hashfunction1
-            hashValue2 = HashFunction2(s); //setting new word for Hashfunction2
-            break;
-        }
+
     }
     while(array[index].isOccupied()); // loop stops when an unoccupied position is found
 
     if (isFull()) // if the array if full then a new array is created with his size doubled
     {
-        //cout << "Array full. Trying to double the size" << endl;
-        Cell *newArray = new Cell [size*2];
-        if(newArray == nullptr)
-            return false;
-        for (int oldElement = 0; oldElement < size; oldElement++) // hashing old elements to new array
-        {
-            if (array[oldElement].isOccupied())
-            {
-                int j = -1;
-                hashValue1 = HashFunction1(array[oldElement].getS());
-                hashValue2 = HashFunction2(array[oldElement].getS());
-                do
-                {
-                    j++;
-                    index = (hashValue1+ j * hashValue2) % (size*2);
-                }
-                while(newArray[index].isOccupied());
-                newArray[index].setS(array[oldElement].getS(),array[oldElement].getK()); // setting words
-            }
-        }
-        delete [] array;
-        array = newArray;
-        size*=2;
-        hashValue1 = HashFunction1(s); //setting new word for Hashfunction1
-        hashValue2 = HashFunction2(s); //setting new word for Hashfunction2
-        //cout << "Array expanded" << endl;
+        expandArray(s);
     }
 
     i=-1;
@@ -134,7 +82,7 @@ bool OpenAddressHashTable::insert(const string &s)
     while(array[index].isOccupied());  // loop stops when an unoccupied position is found
     array[index].setS(s);
     occupied++;
-    /*cout<<"{ "<<endl;
+   /* cout<<"{ "<<endl;
      for (int j = 0; j < size ; ++j)
      {
 
@@ -142,9 +90,40 @@ bool OpenAddressHashTable::insert(const string &s)
 
      }
      cout<<"}"<<endl;*/
-
-
     return true;
+}
+
+void OpenAddressHashTable::expandArray(const string &s)
+{
+    unsigned long int index = 0 , hashValue1=0 , hashValue2 = 0;
+
+    //cout << "Array full. Trying to double the size" << endl;
+    Cell *newArray = new Cell [size*2];
+    if(newArray == nullptr)
+        return;
+    for (int oldElement = 0; oldElement <= size; oldElement++) // hashing old elements to new array
+    {
+        if (array[oldElement].isOccupied())
+        {
+            int j = -1;
+            hashValue1 = HashFunction1(array[oldElement].getS());
+            hashValue2 = HashFunction2(array[oldElement].getS());
+            do
+            {
+                j++;
+                index = (hashValue1+ j * hashValue2) % (size*2);
+            }
+            while(newArray[index].isOccupied());
+            newArray[index].setS(array[oldElement].getS(),array[oldElement].getK()); // setting words
+        }
+    }
+    delete [] array;
+    array = newArray;
+    size*=2;
+    hashValue1 = HashFunction1(s); //setting new word for Hashfunction1
+    hashValue2 = HashFunction2(s); //setting new word for Hashfunction2
+    //cout << "Array expanded" << endl;
+
 }
 
 int OpenAddressHashTable::search(const string &s)
@@ -167,3 +146,5 @@ int OpenAddressHashTable::search(const string &s)
     while(array[index].isOccupied());  // loop stops when an unoccupied position is found
     return 0; //loop ends without finding the word
 }
+
+
