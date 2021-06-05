@@ -45,8 +45,8 @@ void Cell::minusExists()
 
 bool Cell::isOccupied() { return !this->s.empty(); }
 
-void Cell::setS(const string &s, int frequency)
+void Cell::setS(const string &word, int frequency)
 {
-    this->s=s;
+    s = word;
     k = frequency;
 }

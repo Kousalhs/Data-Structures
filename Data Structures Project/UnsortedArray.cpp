@@ -1,5 +1,4 @@
 #include "UnsortedArray.h"
-#include <iostream>
 
 using namespace std;
 
@@ -22,9 +21,9 @@ UnsortedArray::~UnsortedArray() { delete [] array;}
 int UnsortedArray::USearch(const string& s) //s=wordGiven
 {
     for (int i= 0; i < index; i++)         //Linear Search to the array
-        if(array[i].getS() == s)
-            return array[i].getK();
-    return 0;
+        if(array[i].getS() == s)           // if the word searched is equal to the word in array[i]
+            return array[i].getK();         //  return its frequency
+    return 0; // if the word isn't found frequency equals to 0
 }
 
 bool UnsortedArray::UInsert(const string& s) //s=wordGiven
@@ -32,7 +31,7 @@ bool UnsortedArray::UInsert(const string& s) //s=wordGiven
     if(USearch(s)) // searching if the word already exists
     {
         int position=0;
-        for (int i = 0; i < index; i++)
+        for (int i = 0; i < index; i++) //Linear Search to the array
         {
             if(array[i].getS()==s)
             {
@@ -57,7 +56,7 @@ bool UnsortedArray::UInsert(const string& s) //s=wordGiven
     }
 
     array[index].setS(s); // setting the word to the index
-    index++;
+    index++; // increasing index
     return true;
 }
 
@@ -69,7 +68,7 @@ bool UnsortedArray::isFull() const
 void UnsortedArray::UDelete(const string& s) //s=wordGiven
 {
     int position = 0;
-    for (int i = 0; i < index; i++)
+    for (int i = 0; i < index; i++) // Linear search
     {
         if(array[i].getS()==s)
         {
@@ -84,7 +83,7 @@ void UnsortedArray::UDelete(const string& s) //s=wordGiven
         {
             array[i]=array[i+1]; // shifting words
         }
-        index--;
+        index--; // decreasing index
     }
     else
         array[position].minusExists(); // if the word has at least one appearance, decrease it

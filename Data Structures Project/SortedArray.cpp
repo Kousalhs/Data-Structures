@@ -82,7 +82,7 @@ void SortedArray::binaryInsert(const string& s, int low, int high) // s = wordGi
         high = (mid) ? mid - 1 : mid;
     else if (array[mid].getS() < s) // setting low part of array
         low = mid + 1;
-    binaryInsert(s,low,high);
+    binaryInsert(s,low,high); //recursion
 }
 
 bool SortedArray::Insert(const string &s) // s = wordGiven
@@ -104,14 +104,14 @@ bool SortedArray::Insert(const string &s) // s = wordGiven
         array = newArray;
         size*=2;
     }
-    binaryInsert(s,0, index - 1);
+    binaryInsert(s,0, index - 1); // recursion for insertion
     return true;
 }
 
 void SortedArray::Delete(const string &s) // s = wordGiven
 {
     int position = 0;
-    for (int i = 0; i < index; i++)
+    for (int i = 0; i < index; i++) // linear search
     {
         if(array[i].getS()==s)
         {
@@ -125,7 +125,7 @@ void SortedArray::Delete(const string &s) // s = wordGiven
         {
             array[i]=array[i+1]; // shifting words
         }
-        index--;
+        index--; // decreasing index
     }
     else
         array[position].minusExists(); // if the word has at least one appearance, decrease it

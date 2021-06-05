@@ -25,6 +25,7 @@ unsigned long int OpenAddressHashTable::HashFunction1(string const& s) const //H
     for (int i = 0; s[i]!='\0'; i++)
         hashVal1 = hashVal1 +  s[i];
     return hashVal1 % (this->size);
+
 }
 
 unsigned long int OpenAddressHashTable::HashFunction2(string const& s) const //Hash function 2
@@ -47,8 +48,6 @@ bool OpenAddressHashTable::isFull() const
 
 bool OpenAddressHashTable::insert(const string &s)
 {
-    //cout << "Starting insert" << endl;
-
     unsigned long int index = 0 , hashValue1= HashFunction1(s) , hashValue2 = HashFunction2(s);
     int i = -1;
 
@@ -56,10 +55,9 @@ bool OpenAddressHashTable::insert(const string &s)
     {
         i++; // at the very first check, i has value -1+1=0, and increases by 1 at every "collision"
         index = (hashValue1+ i * hashValue2) % (this->size);  // double hashing
-        //cout << "Searching in " << index << endl;
-        if (array[index].getS() == s)
+
+        if (array[index].getS() == s) // if the word inserted is equal to the word then increase its frequency
         {
-            //cout << "Found!" << endl;
             array[index].Exists();
             return true;
         }
@@ -77,19 +75,11 @@ bool OpenAddressHashTable::insert(const string &s)
     {
         i++;
         index = (hashValue1+ i * hashValue2) % size;  // double hashing
-        //cout << "Searching in " << index << endl;
     }
     while(array[index].isOccupied());  // loop stops when an unoccupied position is found
-    array[index].setS(s);
+    array[index].setS(s); // Setting the word
     occupied++;
-   /* cout<<"{ "<<endl;
-     for (int j = 0; j < size ; ++j)
-     {
 
-             cout<<(array[j].getS().empty() ? "empty" : array[j].getS())<< "(" << array[j].getK() << ")"<<endl;
-
-     }
-     cout<<"}"<<endl;*/
     return true;
 }
 
@@ -97,7 +87,6 @@ void OpenAddressHashTable::expandArray(const string &s)
 {
     unsigned long int index = 0 , hashValue1=0 , hashValue2 = 0;
 
-    //cout << "Array full. Trying to double the size" << endl;
     Cell *newArray = new Cell [size*2];
     if(newArray == nullptr)
         return;
@@ -122,23 +111,19 @@ void OpenAddressHashTable::expandArray(const string &s)
     size*=2;
     hashValue1 = HashFunction1(s); //setting new word for Hashfunction1
     hashValue2 = HashFunction2(s); //setting new word for Hashfunction2
-    //cout << "Array expanded" << endl;
-
 }
 
 int OpenAddressHashTable::search(const string &s)
 {
-    //cout<<"Starting search!"<<endl;
     unsigned long int index=0,hashValue1 = HashFunction1(s), hashValue2 = HashFunction2(s);
     int i=-1;
     do
     {
         i++;
         index = (hashValue1+ i * hashValue2) % size;  // double hashing
-        //cout<<"Searching in " << index << endl;
+
         if (array[index].getS() == s)
         {
-            //cout<<"Word found!"<<endl;
             return array[index].getK(); //if the word is found return its frequency
         }
 

@@ -27,7 +27,7 @@ public:
     void Delete(const string&);
 
     //auxiliary methods
-    void PrintElement();
+    void PrintElement(); // this method was used only for personal info
     bool isFull() const;
 };
 
